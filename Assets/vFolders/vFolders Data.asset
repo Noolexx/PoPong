@@ -23,6 +23,7 @@ MonoBehaviour:
     - e5594e1e7ea598d409319855db3fd1f5
     - f54d1bd14bd3ca042bd867b519fee8cc
     - a2cb4c94e16f7804db359dd82273811c
+    - ed231a83976138f419598a7ae3aa477d
     values:
     - iconNameOrGuid: orangeLight
       colorIndex: 10
@@ -60,6 +61,11 @@ MonoBehaviour:
       colorIndex: 1
       isIconRecursive: 0
       isColorRecursive: 0
+    - iconNameOrGuid: redLight
+      colorIndex: 10
+      isIconRecursive: 0
+      isColorRecursive: 1
   bookmarks:
   - guid: 109e9bdd0fcc649c5bc59085c35bdc83
   - guid: 4bc45fd24a483e94b8c93181ff99d8cd
+  - guid: 81bc7389cf5720441836cb15d9567563
