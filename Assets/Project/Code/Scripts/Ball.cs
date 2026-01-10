@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float maxSpeed = 50f;
+    [SerializeField] private float initialSpeed = 10f;
+    [SerializeField] private float maxSpeed = 20f;
     [SerializeField, Range(0.0f, 1f)] private float maxYAngle = 0.6f;
     [SerializeField] private MMF_Player hitFeedback;
     [SerializeField] private Rigidbody2D rb;
@@ -53,7 +53,7 @@ public class Ball : MonoBehaviour
         Vector3 pos = transform.position;
 
         // Set the velocity
-        velocity = moveDirection.normalized * speed;
+        velocity = moveDirection.normalized * initialSpeed;
     }
 
 
@@ -89,7 +89,7 @@ public class Ball : MonoBehaviour
 
         if (transformCollider.CompareTag("LeftBorder"))
         {
-            if (!GameManager.Instance.infinitMod)
+            if (!GameManager.Instance.unableScore)
             {
                 GameManager.Instance.NewPoint(1, false);
                 transform.position = Vector3.zero;
@@ -101,7 +101,7 @@ public class Ball : MonoBehaviour
 
         if (transformCollider.CompareTag("RightBorder"))
         {
-            if (!GameManager.Instance.infinitMod)
+            if (!GameManager.Instance.unableScore)
             {
                 GameManager.Instance.NewPoint(1, true);
                 transform.position = Vector3.zero;
@@ -116,7 +116,7 @@ public class Ball : MonoBehaviour
 
     private void SpeedUp()
     {
-        speed *= 1.05f;
-        speed = Mathf.Clamp(speed, 0, maxSpeed);
+        initialSpeed *= 1.05f;
+        initialSpeed = Mathf.Clamp(initialSpeed, 0, maxSpeed);
     }
 }
