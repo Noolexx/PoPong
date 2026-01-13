@@ -3,9 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    
-    
-    public void Play()
+    [SerializeField] private Btn_FX play_btnFX;
+
+    public void OnPlayCliked()
+    {
+        play_btnFX.Clicked(ChangeScene);
+    }
+
+    private void ChangeScene()
     {
         SceneManager.LoadScene("classic");
     }

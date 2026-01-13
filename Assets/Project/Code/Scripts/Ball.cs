@@ -4,10 +4,14 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float initialSpeed = 10f;
+    private float currentSpeed = 0f;
     [SerializeField] private float maxSpeed = 20f;
     [SerializeField, Range(0.0f, 1f)] private float maxYAngle = 0.6f;
     [SerializeField] private MMF_Player hitFeedback;
     [SerializeField] private Rigidbody2D rb;
+
+    [SerializeField] private float cooldown = 1f;
+    [SerializeField] CustomTimerEvent timerCooldown;
 
     Vector2 moveDirection;
     Vector2 velocity;
@@ -37,10 +41,13 @@ public class Ball : MonoBehaviour
     {
         // Random direction
         RandomizeDirection();
+        currentSpeed = initialSpeed;
     }
 
-    private void RandomizeDirection()
+    public void RandomizeDirection()
     {
+        currentSpeed = initialSpeed;
+
         float xDir = Random.value < 0.5f ? -1 : 1;
         float yDir = Random.value < 0.5f ? -1 : 1;
         moveDirection = new Vector2(xDir, yDir);
@@ -53,7 +60,7 @@ public class Ball : MonoBehaviour
         Vector3 pos = transform.position;
 
         // Set the velocity
-        velocity = moveDirection.normalized * initialSpeed;
+        velocity = moveDirection.normalized * currentSpeed;
     }
 
 
@@ -62,7 +69,6 @@ public class Ball : MonoBehaviour
         if (stopBall) return;
 
         rb.linearVelocity = velocity;
-        //Debug.Log(rb.linearVelocity);
     }
 
 
@@ -92,8 +98,7 @@ public class Ball : MonoBehaviour
             if (!GameManager.Instance.unableScore)
             {
                 GameManager.Instance.NewPoint(1, false);
-                transform.position = Vector3.zero;
-                RandomizeDirection();
+                NewRound();
             }
             moveDirection.y = (distance / (12 / 2)) * maxYAngle;
             moveDirection.x = collision.contacts[0].normal.x;
@@ -104,8 +109,7 @@ public class Ball : MonoBehaviour
             if (!GameManager.Instance.unableScore)
             {
                 GameManager.Instance.NewPoint(1, true);
-                transform.position = Vector3.zero;
-                RandomizeDirection();
+                NewRound();
             }
             moveDirection.y = (distance / (12 / 2)) * maxYAngle;
             moveDirection.x *= - 1;
@@ -114,9 +118,16 @@ public class Ball : MonoBehaviour
         SpeedUp();
     }
 
+    private void NewRound()
+    {
+        currentSpeed = 0f;
+        transform.position = Vector3.zero;
+        timerCooldown.StartTimer(cooldown);
+    }
+
     private void SpeedUp()
     {
-        initialSpeed *= 1.05f;
-        initialSpeed = Mathf.Clamp(initialSpeed, 0, maxSpeed);
+        currentSpeed *= 1.05f;
+        currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
     }
 }

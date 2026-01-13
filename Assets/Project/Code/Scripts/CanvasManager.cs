@@ -71,7 +71,7 @@ public class CanvasManager : MonoBehaviour
 
     public void MainMenu()
     {
-        //SceneManager.LoadScene("To determine");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Quit()
